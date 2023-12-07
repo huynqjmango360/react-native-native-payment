@@ -1,12 +1,3 @@
-export interface NativePayment {
-  canMakePayments: boolean;
-  canMakePaymentsUsingNetworks: boolean;
-  supportedGateways: Array<string>;
-  createPaymentRequest: (details: PaymentDetailsBase) => Promise<any>;
-  handleDetailsUpdate: (details: PaymentDetailsBase) => Promise<any>;
-  show: () => Promise<any>;
-}
-
 // https://www.w3.org/TR/payment-request/#paymentmethoddata-dictionary
 export type PaymentMethodData = {
   supportedMethods: Array<string>;
@@ -90,7 +81,7 @@ export type PaymentShippingOption = {
 };
 
 // https://www.w3.org/TR/payment-request/#paymentcomplete-enum
-export type PaymentComplete = 'fail' | 'success' | 'unknown';
+export type PaymentCompleteStatus = 'fail' | 'success' | 'unknown';
 
 export type PaymentDetailsIOS = {
   paymentData: Object | null | undefined;
