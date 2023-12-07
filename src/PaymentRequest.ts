@@ -1,4 +1,3 @@
-
 import type {
   PaymentMethodData,
   PaymentDetailsInit,
@@ -11,7 +10,7 @@ import type {
   PaymentShippingType,
   PaymentDetailsIOS,
   PaymentDetailsIOSRaw,
-} from '../types';
+} from './types';
 import type PaymentResponseType from './PaymentResponse';
 import { DeviceEventEmitter, Platform } from 'react-native';
 import uuid from 'uuid/v1';
