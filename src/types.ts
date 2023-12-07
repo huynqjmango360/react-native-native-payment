@@ -100,3 +100,10 @@ export type PaymentDetailsIOSRaw = {
   transactionIdentifier: string;
   paymentMethod: Object;
 };
+
+export type PaymentDetailsAndroidRaw = {
+  googleTransactionId: string;
+  payerEmail: string;
+  paymentDescription: string;
+  shippingAddress: Object;
+};

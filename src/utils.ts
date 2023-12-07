@@ -1,6 +1,7 @@
 import type {
   PaymentDetailsInit,
   PaymentItem,
+  PaymentMethodData,
   PaymentShippingOption,
 } from './types';
 
@@ -103,7 +104,7 @@ export function convertDetailAmountsToString(
 
 export function getPlatformMethodData(
   methodData: Array<PaymentMethodData>,
-  platformOS: 'ios' | 'android'
+  platformOS: 'ios' | 'android' | 'windows' | 'macos' | 'web'
 ) {
   const platformSupportedMethod =
     platformOS === 'ios' ? 'apple-pay' : 'android-pay';
@@ -122,8 +123,8 @@ export function getPlatformMethodData(
 // Validators
 
 export function validateTotal(
-  total: { amount: { value: number } } | undefined,
-  errorType = Error
+  total: PaymentItem | undefined,
+  errorType = ConstructorError
 ): void {
   // Should Vailidator take an errorType to prepopulate "Failed to construct 'PaymentRequest'"
 
@@ -132,7 +133,9 @@ export function validateTotal(
   }
 
   const hasTotal =
-    total && total.amount && (total.amount.value || total.amount.value === 0);
+    total &&
+    total.amount &&
+    (total.amount.value || Number(total.amount.value || 0) === 0);
   // Check that there is a total
   if (!hasTotal) {
     throw new errorType(`Missing required member(s): amount, label.`);
@@ -191,15 +194,15 @@ export function validatePaymentMethods(methodData: any[]): any[] {
 }
 
 export function validateDisplayItems(
-  displayItems: PaymentItem[],
-  errorType = Error
+  displayItems?: PaymentItem[],
+  errorType = ConstructorError
 ): void {
   // Check that the value of each display item is a valid decimal monetary value
   if (displayItems) {
     displayItems.forEach((item: PaymentItem) => {
       const amountValue = item && item.amount && item.amount.value;
 
-      if (!amountValue && amountValue !== 0) {
+      if (!amountValue && Number(amountValue || 0) !== 0) {
         throw new errorType(`required member value is undefined.`);
       }
 
@@ -213,21 +216,21 @@ export function validateDisplayItems(
 }
 
 export function validateShippingOptions(
-  details: { shippingOptions: PaymentShippingOption[] | undefined },
-  errorType = Error
+  shippingOptions: PaymentShippingOption[] | undefined ,
+  errorType = ConstructorError
 ): void {
-  if (details.shippingOptions === undefined) {
+  if (shippingOptions === undefined) {
     return undefined;
   }
 
-  if (!Array.isArray(details.shippingOptions)) {
+  if (!Array.isArray(shippingOptions)) {
     throw new errorType(`Iterator getter is not callable.`);
   }
 
-  if (details.shippingOptions) {
+  if (shippingOptions) {
     let seenIDs: string[] = [];
 
-    details.shippingOptions.forEach((shippingOption: PaymentShippingOption) => {
+    shippingOptions.forEach((shippingOption: PaymentShippingOption) => {
       if (shippingOption.id === undefined) {
         throw new errorType(`required member id is undefined.`);
       }
@@ -247,7 +250,7 @@ export function validateShippingOptions(
 
       // 8.2.3.2 If seenIDs contains option.id, then set options to an empty sequence and break.
       if (seenIDs.includes(shippingOption.id)) {
-        details.shippingOptions = [];
+        shippingOptions = [];
         console.warn(
           `[ReactNativePayments] Duplicate shipping option identifier '${shippingOption.id}' is treated as an invalid address indicator.`
         );
@@ -261,7 +264,7 @@ export function validateShippingOptions(
   }
 }
 
-export function getSelectedShippingOption(shippingOptions: any[]) {
+export function getSelectedShippingOption(shippingOptions: PaymentShippingOption[]) {
   // Return null if shippingOptions isn't an Array
   if (!Array.isArray(shippingOptions)) {
     return null;
@@ -282,7 +285,7 @@ export function getSelectedShippingOption(shippingOptions: any[]) {
   }
 
   // Return first shippingOption if no shippingOption was marked as selected
-  return shippingOptions[0].id;
+  return shippingOptions[0]?.id || '';
 }
 
 // Gateway helpers

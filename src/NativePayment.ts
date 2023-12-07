@@ -1,4 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
+import type { PaymentOptions } from './types';
 
 const IS_ANDROID = Platform.OS === 'android';
 const ReactNativePayments = NativeModules.NativePayment;
@@ -8,7 +9,7 @@ class NativePaymentModule {
     ? ['stripe', 'braintree'] // On Android, Payment Gateways are supported out of the gate.
     : NativeModules.NativePayment.supportedGateways;
 
-  canMakePayments(methodData: object) {
+  canMakePayments(methodData: object): Promise<boolean> {
     return new Promise((resolve, reject) => {
       if (IS_ANDROID) {
         ReactNativePayments.canMakePayments(
@@ -84,7 +85,7 @@ class NativePaymentModule {
     });
   }
 
-  show(methodData, details, options = {}) {
+  show(methodData: any , details: any, options: any = {}) {
     return new Promise((resolve, reject) => {
       if (IS_ANDROID) {
         ReactNativePayments.show(
