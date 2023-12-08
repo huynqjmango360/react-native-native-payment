@@ -156,7 +156,7 @@ export function validateTotal(
   }
 }
 
-export function validatePaymentMethods(methodData: any[]): any[] {
+export function validatePaymentMethods(methodData: PaymentMethodData[]): any[] {
   // Check that at least one payment method is passed in
   if (methodData.length < 1) {
     throw new ConstructorError(`At least one payment method is required`);
@@ -216,7 +216,7 @@ export function validateDisplayItems(
 }
 
 export function validateShippingOptions(
-  shippingOptions: PaymentShippingOption[] | undefined ,
+  shippingOptions: PaymentShippingOption[] | undefined,
   errorType = ConstructorError
 ): void {
   if (shippingOptions === undefined) {
@@ -264,7 +264,9 @@ export function validateShippingOptions(
   }
 }
 
-export function getSelectedShippingOption(shippingOptions: PaymentShippingOption[]) {
+export function getSelectedShippingOption(
+  shippingOptions: PaymentShippingOption[]
+) {
   // Return null if shippingOptions isn't an Array
   if (!Array.isArray(shippingOptions)) {
     return null;

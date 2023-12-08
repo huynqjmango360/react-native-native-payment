@@ -10,7 +10,7 @@ import type {
 } from './types';
 import type PaymentResponseType from './PaymentResponse';
 import { DeviceEventEmitter, Platform } from 'react-native';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 import NativePayments from './NativePayment';
 import PaymentResponse from './PaymentResponse';
 import PaymentRequestUpdateEvent from './PaymentRequestUpdateEvent';
@@ -63,28 +63,29 @@ export default class PaymentRequest {
   private _userAcceptSubscription: any; // TODO: add proper type annotation
   private _gatewayErrorSubscription: any; // TODO: add proper type annotation
   private _shippingAddressChangesCount: number;
-  private _shippingAddressChangeFn: ((
-    event: PaymentRequestUpdateEvent
-  ) => Promise<any>) | undefined; // function provided by user
-  private _shippingOptionChangeFn: ((
-    event: PaymentRequestUpdateEvent
-  ) => Promise<any>) | undefined; // function provided by user
+  private _shippingAddressChangeFn:
+    | ((event: PaymentRequestUpdateEvent) => Promise<any>)
+    | undefined; // function provided by user
+  private _shippingOptionChangeFn:
+    | ((event: PaymentRequestUpdateEvent) => Promise<any>)
+    | undefined; // function provided by user
 
   constructor(
     methodData: PaymentMethodData[],
-    details?: PaymentDetailsInit,
+    details: PaymentDetailsInit,
     options?: PaymentOptions
   ) {
-    // 1. If the current settings object's responsible document is not allowed to use the feature indicated by attribute name allowpaymentrequest, then throw a " SecurityError" DOMException.
+    // 1. If the current settings object's responsible document is not allowed
+    // to use the feature indicated by attribute name allowpaymentrequest, then throw a " SecurityError" DOMException.
     noop();
 
     // 2. Let serializedMethodData be an empty list.
     // happens in `processPaymentMethods`
 
     // 3. Establish the request's id:
-    // if (!details?.id) {
-    //   details?.id = uuid();
-    // }
+    if (!details.id) {
+      details.id = uuid();
+    }
 
     // 4. Process payment methods
     const serializedMethodData = validatePaymentMethods(methodData);
@@ -136,7 +137,7 @@ export default class PaymentRequest {
     this._serializedMethodData = JSON.stringify(methodData);
 
     // Set attributes (18-20)
-    this._id = details?.id || uuid.v1();
+    this._id = details?.id || uuid();
 
     // 18. Set the value of request's shippingOption attribute to selectedShippingOption.
     this._shippingOption = selectedShippingOption;
@@ -160,7 +161,7 @@ export default class PaymentRequest {
     this._acceptPromise = new Promise<any>(() => {});
 
     this._shippingAddressChangeFn = undefined;
-    
+
     this._shippingOptionChangeFn = undefined;
 
     this._acceptPromiseResolver = undefined;
@@ -387,15 +388,16 @@ export default class PaymentRequest {
   // https://www.w3.org/TR/payment-request/#onshippingoptionchange-attribute
   addEventListener(
     eventName: 'shippingaddresschange' | 'shippingoptionchange',
-    fn: (e: PaymentRequestUpdateEvent) => Promise<any>
+    handler: (e: PaymentRequestUpdateEvent) => Promise<any>
   ) {
     if (eventName === SHIPPING_ADDRESS_CHANGE_EVENT) {
-      return (this._shippingAddressChangeFn = fn.bind(this));
+      return (this._shippingAddressChangeFn = handler.bind(this));
     }
 
     if (eventName === SHIPPING_OPTION_CHANGE_EVENT) {
-      return (this._shippingOptionChangeFn = fn.bind(this));
+      return (this._shippingOptionChangeFn = handler.bind(this));
     }
+    return;
   }
 
   // https://www.w3.org/TR/payment-request/#id-attribute

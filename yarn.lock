@@ -3246,6 +3246,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^9.0.7":
+  version: 9.0.7
+  resolution: "@types/uuid@npm:9.0.7"
+  checksum: c7321194aeba9ea173efd1e721403bdf4e7ae6945f8f8cdbc87c791f4b505ccf3dbc4a8883d90b394ef13b7c2dc778045792b05dbb23b3c746f8ea347804d448
+  languageName: node
+  linkType: hard
+
 "@types/validator@npm:^13.11.7":
   version: 13.11.7
   resolution: "@types/validator@npm:13.11.7"
@@ -10848,6 +10855,7 @@ __metadata:
     pod-install: ^0.1.0
     react: 18.2.0
     react-native: 0.72.7
+    uuid: ^9.0.1
   languageName: unknown
   linkType: soft
 
@@ -10862,6 +10870,7 @@ __metadata:
     "@types/jest": ^28.1.2
     "@types/react": ~17.0.21
     "@types/react-native": 0.70.0
+    "@types/uuid": ^9.0.7
     "@types/validator": ^13.11.7
     commitlint: ^17.0.2
     del-cli: ^5.0.0

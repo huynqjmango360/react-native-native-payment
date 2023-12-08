@@ -85,7 +85,7 @@ class NativePaymentModule {
     });
   }
 
-  show(methodData: any , details: any, options: any = {}) {
+  show(methodData: any, details: any, options: any = {}) {
     return new Promise((resolve, reject) => {
       if (IS_ANDROID) {
         ReactNativePayments.show(
