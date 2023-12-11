@@ -101,10 +101,8 @@ RCT_EXPORT_METHOD(complete: (NSString *)paymentStatus
 
 -(void) paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
 {
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    [self sendEventWithName:@"NativePayments:onuserdismiss" body:nil];
+    [self.viewController dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 RCT_EXPORT_METHOD(handleDetailsUpdate: (NSDictionary *)details
                   callback: (RCTResponseSenderBlock)callback)
@@ -172,7 +170,7 @@ RCT_EXPORT_METHOD(handleDetailsUpdate: (NSDictionary *)details
                 [self handleGatewayError:error];
                 return;
             }
-
+            NSLog(@"Payment", token);
             [self handleUserAccept:payment paymentToken:token];
         }];
     } else {
@@ -467,6 +465,7 @@ RCT_EXPORT_METHOD(handleDetailsUpdate: (NSDictionary *)details
 - (void)handleUserAccept:(PKPayment *_Nonnull)payment
             paymentToken:(NSString *_Nullable)token
 {
+    
     NSMutableDictionary *paymentResponse = [[NSMutableDictionary alloc]initWithCapacity:6];
 
     NSString *transactionId = payment.token.transactionIdentifier;

@@ -25,6 +25,7 @@ import {
   hasGatewayConfig,
   getGatewayName,
   validateGateway,
+  processPaymentDetailsModifiers,
 } from './utils';
 import { ConstructorError, GatewayError } from './errors';
 import {
@@ -109,12 +110,10 @@ export default class PaymentRequest {
     }
 
     // 9. Let serializedModifierData be an empty list.
-    // let serializedModifierData = [];
 
     // 10. Process payment details modifiers:
     // TODO
     // - Look into how payment details modifiers are used.
-    // processPaymentDetailsModifiers(details, serializedModifierData)
 
     // 11. Let request be a new PaymentRequest.
 
@@ -131,7 +130,7 @@ export default class PaymentRequest {
     this._details = details || ({} as PaymentDetailsInit);
 
     // 16. Set request.[[serializedModifierData]] to serializedModifierData.
-    this._serializedModifierData = '';
+    // this._serializedModifierData = processPaymentDetailsModifiers(details!)
 
     // 17. Set request.[[serializedMethodData]] to serializedMethodData.
     this._serializedMethodData = JSON.stringify(methodData);

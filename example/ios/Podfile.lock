@@ -1,5 +1,19 @@
 PODS:
   - boost (1.76.0)
+  - Braintree (6.10.0):
+    - Braintree/Card (= 6.10.0)
+    - Braintree/Core (= 6.10.0)
+    - Braintree/PayPal (= 6.10.0)
+  - Braintree/ApplePay (6.10.0):
+    - Braintree/Core
+  - Braintree/Card (6.10.0):
+    - Braintree/Core
+  - Braintree/Core (6.10.0)
+  - Braintree/DataCollector (6.10.0):
+    - Braintree/Core
+  - Braintree/PayPal (6.10.0):
+    - Braintree/Core
+    - Braintree/DataCollector
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.72.7)
@@ -376,8 +390,12 @@ PODS:
   - React-logger (0.72.7):
     - glog
   - react-native-native-payment (0.1.0):
+    - Braintree (~> 6.10)
+    - Braintree/ApplePay (~> 6.10)
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+    - Stripe (~> 23.18.0)
+    - StripeApplePay (~> 23.18.0)
   - React-NativeModulesApple (0.72.7):
     - hermes-engine
     - React-callinvoker
@@ -489,6 +507,26 @@ PODS:
     - React-logger (= 0.72.7)
     - React-perflogger (= 0.72.7)
   - SocketRocket (0.6.1)
+  - Stripe (23.18.3):
+    - StripeApplePay (= 23.18.3)
+    - StripeCore (= 23.18.3)
+    - StripePayments (= 23.18.3)
+    - StripePaymentsUI (= 23.18.3)
+    - StripeUICore (= 23.18.3)
+  - StripeApplePay (23.18.3):
+    - StripeCore (= 23.18.3)
+  - StripeCore (23.18.3)
+  - StripePayments (23.18.3):
+    - StripeCore (= 23.18.3)
+    - StripePayments/Stripe3DS2 (= 23.18.3)
+  - StripePayments/Stripe3DS2 (23.18.3):
+    - StripeCore (= 23.18.3)
+  - StripePaymentsUI (23.18.3):
+    - StripeCore (= 23.18.3)
+    - StripePayments (= 23.18.3)
+    - StripeUICore (= 23.18.3)
+  - StripeUICore (23.18.3):
+    - StripeCore (= 23.18.3)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -561,6 +599,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Braintree
     - CocoaAsyncSocket
     - Flipper
     - Flipper-Boost-iOSX
@@ -574,6 +613,12 @@ SPEC REPOS:
     - libevent
     - OpenSSL-Universal
     - SocketRocket
+    - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripePayments
+    - StripePaymentsUI
+    - StripeUICore
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -661,6 +706,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
+  Braintree: 2149b2014e660267a8fec96c3bc3e969887c2f34
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 5fbbff1d7734827299274638deb8ba3024f6c597
@@ -693,7 +739,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: c49502e5d02112247ee4526bc3ccfc891ae3eb9b
   React-jsinspector: 8baadae51f01d867c3921213a25ab78ab4fbcd91
   React-logger: 8edc785c47c8686c7962199a307015e2ce9a0e4f
-  react-native-native-payment: 9c998660747cffaa2102d6c7a329649d556b7912
+  react-native-native-payment: 150a8c409b43b9b9a042967e79242f2c1deba96b
   React-NativeModulesApple: b6868ee904013a7923128892ee4a032498a1024a
   React-perflogger: 31ea61077185eb1428baf60c0db6e2886f141a5a
   React-RCTActionSheet: 392090a3abc8992eb269ef0eaa561750588fc39d
@@ -712,9 +758,15 @@ SPEC CHECKSUMS:
   React-utils: 56838edeaaf651220d1e53cd0b8934fb8ce68415
   ReactCommon: 5f704096ccf7733b390f59043b6fa9cc180ee4f6
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
+  Stripe: e046335ab6e3f25d39f1a55bd98620a85269cffa
+  StripeApplePay: 1aa77f8ec7a6d9463fa8f49ae0672fe59dbf4c73
+  StripeCore: fe10c34fb3c9ae18b986913f7e4460e7c653ce93
+  StripePayments: 7084fed30c5f03f15ae23c5dce63715ba0b53e15
+  StripePaymentsUI: c12de264eda974d91e43a769f53a6c6afc9a1715
+  StripeUICore: 090c4fe916d039616ce8f8de30392f4aeb33dd16
   Yoga: 4c3aa327e4a6a23eeacd71f61c81df1bcdf677d5
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 3c2962824d3b80402c1bbcf42a0349e64f6752df
+PODFILE CHECKSUM: b33c93e2b037ea6a6616fdd80c8953dceea89982
 
 COCOAPODS: 1.12.1

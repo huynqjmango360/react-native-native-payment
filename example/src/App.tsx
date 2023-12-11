@@ -1,18 +1,115 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-native-payment';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { NativePayment } from 'react-native-native-payment';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
 
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
+  const onPress = () => {
+    NativePayment.createPaymentRequest(
+      {
+        // supportedMethods: ['apple_pay'],
+        // data: {
+        version: 3,
+        merchantIdentifier: 'merchant.au.com.jmango.JMango360',
+        merchantCapabilities: ['supports3DS'],
+        supportedNetworks: ['visa', 'mastercard'],
+        countryCode: 'US',
+        currencyCode: 'USD',
+        requiredBillingContactFields: ['postalAddress', 'name'],
+        requiredShippingContactFields: [
+          'postalAddress',
+          'name',
+          'phone',
+          'email',
+        ],
+        paymentMethodTokenizationParameters: {
+          parameters: {
+            gateway: 'braintree',
+            braintree: {
+              tokenizationKey: 'sandbox_rzqjhfv6_mxtqjkx82q8zy799',
+            },
+          },
+        },
+        // },
+      },
+      {
+        id: 'super-store-order-123-12312',
+        displayItems: [
+          {
+            label: 'Sub-total',
+            amount: { currency: 'GBP', value: '55.00' },
+          },
+          {
+            label: 'Value-Added Tax (VAT)',
+            amount: { currency: 'GBP', value: '5.00' },
+          },
+          {
+            label: 'Standard shipping',
+            amount: { currency: 'GBP', value: '5.00' },
+          },
+        ],
+        total: {
+          label: 'Total due',
+          // The total is GBP£65.00 here because we need to
+          // add tax and shipping.
+          amount: { currency: 'GBP', value: '65.00' },
+        },
+      },
+      {}
+    );
+    // NativePayment.show();
+  };
+
+  const showApplePaySheet = () => {
+    NativePayment.show();
+  };
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <TouchableOpacity
+        onPress={onPress}
+        style={{
+          width: 200,
+          height: 50,
+          borderRadius: 10,
+          backgroundColor: 'black',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 14,
+            fontWeight: '600',
+          }}
+        >
+          ApplePay
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={showApplePaySheet}
+        style={{
+          width: 200,
+          height: 50,
+          borderRadius: 10,
+          backgroundColor: 'black',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 14,
+            fontWeight: '600',
+          }}
+        >
+          Show ApplePay sheet
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -22,6 +119,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 20,
   },
   box: {
     width: 60,

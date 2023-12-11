@@ -1,4 +1,4 @@
-export * from './NativePayment';
+export { default as NativePayment } from './NativePayment';
 export * from './PaymentRequest';
 export * from './PaymentResponse';
 export * from './constants';

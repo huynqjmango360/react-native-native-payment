@@ -1,5 +1,7 @@
 import type {
+  PaymentCurrencyAmount,
   PaymentDetailsInit,
+  PaymentDetailsModifier,
   PaymentItem,
   PaymentMethodData,
   PaymentShippingOption,
@@ -125,7 +127,7 @@ export function getPlatformMethodData(
 export function validateTotal(
   total: PaymentItem | undefined,
   errorType = ConstructorError
-): void {
+): boolean {
   // Should Vailidator take an errorType to prepopulate "Failed to construct 'PaymentRequest'"
 
   if (total === undefined) {
@@ -154,6 +156,8 @@ export function validateTotal(
   if (isNegative(totalAmountValue)) {
     throw new errorType(`Total amount value should be non-negative`);
   }
+
+  return true;
 }
 
 export function validatePaymentMethods(methodData: PaymentMethodData[]): any[] {
@@ -345,4 +349,32 @@ export function validateGateway(
       `"${selectedGateway}" is not a supported gateway. Visit https://goo.gl/fsxSFi for more info.`
     );
   }
+}
+
+export function processPaymentDetailsModifiers(detail: PaymentDetailsInit) {
+  let modifiers: PaymentDetailsModifier[] = [];
+  if (detail.modifiers) {
+    modifiers = detail.modifiers;
+    modifiers.forEach((modifier) => {
+      if (validateTotal(modifier.total, ConstructorError)) {
+      }
+    });
+  }
+
+  return modifiers;
+}
+
+export function checkoutValidAmount(amount: PaymentCurrencyAmount) {
+  if (!IsWellFormedCurrencyCode(amount.currency)) {
+    throw new ConstructorError(`Currency ${amount.currency} is invalid`);
+  }
+  if (!/^-?[0-9]+(\.[0-9]+)?$/.test(amount.value)) {
+    throw new ConstructorError(`Value ${amount.value} is invalid`);
+  }
+
+  return true;
+}
+
+export function IsWellFormedCurrencyCode(currency: string) {
+  return currency.length === 3 && /^[A-Z]+$/.test(currency.toUpperCase());
 }
