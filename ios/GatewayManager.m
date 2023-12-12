@@ -1,7 +1,6 @@
 #import "GatewayManager.h"
 
 @import Braintree;
-
 @import Stripe;
 @import StripeCore;
 @import StripeApplePay;

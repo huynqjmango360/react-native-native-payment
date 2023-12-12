@@ -10,8 +10,9 @@ import type {
 } from './types';
 import type PaymentResponseType from './PaymentResponse';
 import { DeviceEventEmitter, Platform } from 'react-native';
+import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
-import NativePayments from './NativePayment';
+import { NativePayment } from './NativePayment';
 import PaymentResponse from './PaymentResponse';
 import PaymentRequestUpdateEvent from './PaymentRequestUpdateEvent';
 import {
@@ -174,11 +175,11 @@ export class PaymentRequest {
     if (hasGatewayConfig(platformMethodData)) {
       validateGateway(
         getGatewayName(platformMethodData),
-        NativePayments.supportedGateways
+        NativePayment.supportedGateways
       );
     }
 
-    NativePayments.createPaymentRequest(
+    NativePayment.createPaymentRequest(
       platformMethodData,
       normalizedDetails,
       options
@@ -308,7 +309,7 @@ export class PaymentRequest {
       // On Android, the recommended flow is to have user's confirm prior to
       // retrieving the full wallet.
       getPaymentToken: () =>
-        NativePayments.getFullWalletAndroid(
+        NativePayment.getFullWalletAndroid(
           googleTransactionId,
           getPlatformMethodData(
             JSON.parse(this._serializedMethodData),
@@ -434,7 +435,7 @@ export class PaymentRequest {
       const options = this._options;
 
       // Note: resolve will be triggered via _acceptPromiseResolver() from somwhere else
-      return NativePayments.show(
+      return NativePayment.show(
         platformMethodData,
         normalizedDetails,
         options
@@ -453,7 +454,7 @@ export class PaymentRequest {
       }
 
       // Try to dismiss the UI
-      NativePayments.abort()
+      NativePayment.abort()
         .then((_bool) => {
           this._closePaymentRequest();
           // Return `undefined` as proposed in the spec.
@@ -465,11 +466,11 @@ export class PaymentRequest {
 
   // https://www.w3.org/TR/payment-request/#canmakepayment-method
   canMakePayments(): Promise<boolean> {
-    return NativePayments.canMakePayments(
+    return NativePayment.canMakePayments(
       getPlatformMethodData(JSON.parse(this._serializedMethodData), Platform.OS)
     );
   }
 
   static canMakePaymentsUsingNetworks =
-    NativePayments.canMakePaymentsUsingNetworks;
+    NativePayment.canMakePaymentsUsingNetworks;
 }

@@ -1,7 +1,11 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { NativePayment } from 'react-native-native-payment';
+import {
+  NativePayment,
+  type PaymentDetailsInit,
+  PaymentRequest,
+} from 'react-native-native-payment';
 
 const METHOD_DATA = [
   {
@@ -118,7 +122,7 @@ export default function App() {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={showApplePaySheet}
+        onPress={showPaymentSheet}
         style={{
           width: 200,
           height: 50,
