@@ -16,6 +16,8 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,mm}"
 
+  s.compiler_flags = '-fcxx-modules'
+
   s.dependency "Stripe", "~> 23.18.0"
   s.dependency "StripeApplePay", "~> 23.18.0"
   s.dependency "Braintree", "~> 6.10"

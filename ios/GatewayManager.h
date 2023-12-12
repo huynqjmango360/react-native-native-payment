@@ -1,7 +1,11 @@
 #import "PassKit/PassKit.h"
 #import <Foundation/Foundation.h>
 
+@import Braintree;
+
 @interface GatewayManager : NSObject
+
+@property (nonatomic, strong) BTAPIClient * _Nullable braintreeClient;
 
 + (NSArray *_Nonnull)getSupportedGateways;
 - (void)configureGateway:(NSDictionary *_Nonnull)gatewayParameters

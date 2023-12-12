@@ -170,7 +170,7 @@ RCT_EXPORT_METHOD(handleDetailsUpdate: (NSDictionary *)details
                 [self handleGatewayError:error];
                 return;
             }
-            NSLog(@"Payment", token);
+
             [self handleUserAccept:payment paymentToken:token];
         }];
     } else {

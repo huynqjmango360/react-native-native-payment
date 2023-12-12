@@ -44,7 +44,7 @@ export default function App() {
         // supportedMethods: ['apple_pay'],
         // data: {
         version: 3,
-        merchantIdentifier: 'merchant.au.com.jmango.JMango360',
+        merchantIdentifier: 'merchant.au.com.jmango360.bigcommer',
         merchantCapabilities: ['supports3DS'],
         supportedNetworks: ['visa', 'mastercard'],
         countryCode: 'US',

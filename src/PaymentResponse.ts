@@ -8,7 +8,7 @@ import type {
 } from './types';
 
 // Modules
-import NativePayment from './NativePayment';
+import { NativePayment } from './NativePayment';
 
 export default class PaymentResponse {
   // Internal Slots
