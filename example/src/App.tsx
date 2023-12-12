@@ -3,8 +3,36 @@ import * as React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { NativePayment } from 'react-native-native-payment';
 
+const METHOD_DATA = [
+  {
+    supportedMethods: ['apple-pay'],
+    data: {
+      merchantIdentifier: 'merchant.com.your-app.namespace',
+      supportedNetworks: ['visa', 'mastercard', 'amex'],
+      countryCode: 'US',
+      currencyCode: 'USD',
+    },
+  },
+];
+
+const DETAILS: PaymentDetailsInit = {
+  displayItems: [
+    {
+      label: 'Movie Ticket',
+      amount: { currency: 'USD', value: '15.00' },
+    },
+  ],
+  total: {
+    label: 'Merchant Name',
+    amount: { currency: 'USD', value: '15.00' },
+  },
+};
+
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const showPaymentSheet = () => {
+    const paymentRequest = new PaymentRequest(METHOD_DATA, DETAILS);
+    paymentRequest.show();
+  };
 
   const onPress = () => {
     NativePayment.createPaymentRequest(

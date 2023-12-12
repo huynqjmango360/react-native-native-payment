@@ -54,7 +54,7 @@ export type PaymentOptions = {
 export type PaymentItem = {
   label: string;
   amount: PaymentCurrencyAmount;
-  pending: boolean;
+  pending?: boolean;
 };
 
 // https://www.w3.org/TR/payment-request/#paymentaddress-interface

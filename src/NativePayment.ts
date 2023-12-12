@@ -174,6 +174,4 @@ class NativePaymentModule {
   }
 }
 
-const NativePayment = new NativePaymentModule();
-
-export default NativePayment;
+export const NativePayment = new NativePaymentModule();

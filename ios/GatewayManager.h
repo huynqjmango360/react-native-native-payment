@@ -1,11 +1,7 @@
 #import "PassKit/PassKit.h"
 #import <Foundation/Foundation.h>
 
-@import Braintree;
-
 @interface GatewayManager : NSObject
-
-@property (nonatomic, strong) BTAPIClient * _Nullable braintreeClient;
 
 + (NSArray *_Nonnull)getSupportedGateways;
 - (void)configureGateway:(NSDictionary *_Nonnull)gatewayParameters
@@ -22,5 +18,5 @@
 // Braintree
 - (void)configureBraintreeGateway:(NSDictionary *_Nonnull)gatewayParameters;
 - (void)createBraintreeTokenWithPayment:(PKPayment *_Nonnull)payment
-                    completion:(void (^_Nullable)(NSString * _Nullable token, NSError * _Nullable error))completion;
+                             completion:(void (^_Nullable)(NSString * _Nullable token, NSError * _Nullable error))completion;
 @end

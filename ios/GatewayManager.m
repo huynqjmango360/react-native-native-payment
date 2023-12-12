@@ -45,7 +45,7 @@
 
 - (void)configureStripeGateway:(NSDictionary *_Nonnull)gatewayParameters
             merchantIdentifier:(NSString *_Nonnull)merchantId
-{
+{ 
     NSString *stripePublishableKey = gatewayParameters[@"stripe:publishableKey"];
     [[STPPaymentConfiguration sharedConfiguration] setPublishableKey:stripePublishableKey];
     [[STPPaymentConfiguration sharedConfiguration] setAppleMerchantIdentifier:merchantId];
@@ -65,26 +65,26 @@
 
 - (void)configureBraintreeGateway:(NSDictionary *_Nonnull)gatewayParameters
 {
-    NSString *braintreeTokenizationKey = gatewayParameters[@"braintree:tokenizationKey"];
-    self.braintreeClient = [[BTAPIClient alloc] initWithAuthorization:braintreeTokenizationKey];
+//    NSString *braintreeTokenizationKey = gatewayParameters[@"braintree:tokenizationKey"];
+//    self.braintreeClient = [[BTAPIClient alloc] initWithAuthorization:braintreeTokenizationKey];
 }
 
 - (void)createBraintreeTokenWithPayment:(PKPayment *_Nonnull)payment
                              completion:(void (^_Nullable)(NSString * _Nullable token, NSError * _Nullable error))completion
 {
-    BTApplePayClient *applePayClient = [[BTApplePayClient alloc]
-                                        initWithAPIClient:self.braintreeClient];
-    
-    [applePayClient tokenizeApplePayPayment:payment
-                                 completion:^(BTApplePayCardNonce *tokenizedApplePayPayment,
-                                              NSError *error)
-     {
-        if (error) {
-            completion(nil, error);
-        } else {
-            completion(tokenizedApplePayPayment.nonce, nil);
-        }
-    }];
+//    BTApplePayClient *applePayClient = [[BTApplePayClient alloc]
+//                                        initWithAPIClient:self.braintreeClient];
+//    
+//    [applePayClient tokenizeApplePayPayment:payment
+//                                 completion:^(BTApplePayCardNonce *tokenizedApplePayPayment,
+//                                              NSError *error)
+//     {
+//        if (error) {
+//            completion(nil, error);
+//        } else {
+//            completion(tokenizedApplePayPayment.nonce, nil);
+//        }
+//    }];
 }
 
 @end

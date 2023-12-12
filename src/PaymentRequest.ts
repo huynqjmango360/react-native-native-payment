@@ -44,7 +44,7 @@ const noop = () => {};
 const IS_ANDROID = Platform.OS === 'android';
 const IS_IOS = Platform.OS === 'ios';
 
-export default class PaymentRequest {
+export class PaymentRequest {
   private readonly _id: string;
   private _shippingAddress: PaymentAddress | null;
   private _shippingOption: string | null;
